@@ -1,8 +1,25 @@
 // Write your JavaScript code here!
-
-let form = document.querySelector("form");
 window.addEventListener("load", function() {
+    fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
+        response.json().then(function(json){
+           const missionTarget = document.getElementById('missionTarget');
+           const index = Math.floor(Math.random() * json.length - 1);
+           missionTarget.innerHTML = `
+           <ol>
+           <li>Name: ${json[index].name}</li>
+           <li>Diameter: ${json[index].diameter}</li>
+           <li>Star: ${json[index].star}</li>
+           <li>Distance from Earth: ${json[index].distance}</li>
+           <li>Number of Moons: ${json[index].moons}</li>
+           </ol>
+           <img src="${json[index].image}">
+           `;
+        });
+    });
 
+    // When the submit button is hit, execute the code below
+    let form = document.querySelector("form");
+    form.addEventListener("submit", function(event) {
   
    let listedPlanets;
    // Set listedPlanetsResponse equal to the value returned by calling myFetch()
@@ -16,6 +33,7 @@ window.addEventListener("load", function() {
    let launchStatus = document.getElementById('launchStatus');
    let pilotStatus = document.getElementById('pilotStatus');
    let copilotStatus = document.getElementById('copilotStatus');
+
   // Checking to make sure the form elements have values
       if (pilotName.value === ""|| copilotName.value === "" || fuelLevel.value === "" || cargoMass.value === "") {
          alert("All fields are required!");
@@ -69,24 +87,7 @@ window.addEventListener("load", function() {
 
       }
 
-      // Fetching a json
-      fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
-         response.json().then(function(json){
-            const missionTarget = document.getElementById('missionTarget');
-            const index = Math.floor(Math.random() * json.length - 1);
-            missionTarget.innerHTML = `
-            <ol>
-            <li>Name: ${json[index].name}</li>
-            <li>Diameter: ${json[index].diameter}</li>
-            <li>Star: ${json[index].star}</li>
-            <li>Distance from Earth: ${json[index].distance}</li>
-            <li>Number of Moons: ${json[index].moons}</li>
-            </ol>
-            <img src="${json[index].image}">
-            `;
-         });
-     });
-
+          
       event.preventDefault();
 
    });
